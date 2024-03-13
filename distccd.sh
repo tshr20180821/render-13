@@ -13,8 +13,8 @@ SSH_KEY_FILENAME="$(echo "${SSH_KEY_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_4
 KEYWORD=$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} https://${DISTCCD_HOST}/auth/${KEYWORD_FILENAME})
 SSH_USER=$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} https://${DISTCCD_HOST}/auth/${SSH_USER_FILENAME})
 
-curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} -o ./rsa_key01.txt https://${DISTCCD_HOST}/auth/${SSH_KEY_FILENAME}
-chmod 600 ./rsa_key01.txt
+curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} -O https://${DISTCCD_HOST}/auth/${SSH_KEY_FILENAME}
+chmod 600 ./${SSH_KEY_FILENAME}
 
 CURL_OPT="${CURL_OPT} -m 3600 -sSN"
 
@@ -30,5 +30,5 @@ curl ${CURL_OPT} ${PIPING_SERVER}/${KEYWORD}res \
 ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
   -o ServerAliveInterval=60 -o ServerAliveCountMax=60 \
   -p ${SSH_PORT} \
-  -i ./rsa_key01.txt \
+  -i ./${SSH_KEY_FILENAME} \
   -4fNL ${DISTCC_PORT}:127.0.0.1:3632 ${SSH_USER}@127.0.0.1 &
