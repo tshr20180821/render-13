@@ -4,11 +4,17 @@ set -x
 
 export PS4='+(${BASH_SOURCE}:${DISTCCD_HOST}:${LINENO}): '
 
+curl -sSm 3 https://${DISTCCD_HOST}/ >/dev/null 2>&1 &
+
 PASSWORD="$(echo -n "${DISTCCD_HOST}""${DUMMY_STRING_1}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 
 KEYWORD_FILENAME="$(echo "${KEYWORD_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_2}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 SSH_USER_FILENAME="$(echo "${SSH_USER_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_3}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 SSH_KEY_FILENAME="$(echo "${SSH_KEY_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_4}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
+
+while [ "200" != "$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} -o /dev/null -w '%{http_code}' https://${DISTCCD_HOST}/auth/${SSH_KEY_FILENAME})" ]; do
+  sleep 3s
+done
 
 KEYWORD=$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} https://${DISTCCD_HOST}/auth/${KEYWORD_FILENAME})
 SSH_USER=$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} https://${DISTCCD_HOST}/auth/${SSH_USER_FILENAME})
@@ -32,3 +38,5 @@ ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
   -p ${SSH_PORT} \
   -i ./${SSH_KEY_FILENAME} \
   -4fNL ${DISTCC_PORT}:127.0.0.1:3632 ${SSH_USER}@127.0.0.1 &
+
+touch /tmp/${DISTCCD_HOST}
