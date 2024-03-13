@@ -9,7 +9,7 @@ curl -sSLO https://raw.githubusercontent.com/tshr20180821/render-13/main/distccd
 chmod +x distccd.sh
 
 DISTCCD_HOST=${DISTCCD_HOST_01} SSH_PORT=8022 DISTCC_PORT=3632 ./distccd.sh &
-# DISTCCD_HOST=${DISTCCD_HOST_02} SSH_PORT=8023 DISTCC_PORT=3633 ./distccd.sh &
+DISTCCD_HOST=${DISTCCD_HOST_02} SSH_PORT=8023 DISTCC_PORT=3633 ./distccd.sh &
 
 sleep 10s
 
@@ -25,8 +25,8 @@ pushd /tmp
 curl -sSO https://memcached.org/files/memcached-1.6.22.tar.gz
 tar xf memcached-1.6.22.tar.gz
 
-# export DISTCC_HOSTS="127.0.0.1:3632/4,127.0.0.1:3633/4"
-export DISTCC_HOSTS="127.0.0.1:3632/4"
+export DISTCC_HOSTS="127.0.0.1:3632/4,127.0.0.1:3633/4"
+# export DISTCC_HOSTS="127.0.0.1:3632/4"
 export DISTCC_POTENTIAL_HOSTS="${DISTCC_HOSTS}"
 export DISTCC_FALLBACK=0
 export DISTCC_IO_TIMEOUT=600
