@@ -6,9 +6,9 @@ export PS4='+(${BASH_SOURCE}:${DISTCCD_HOST}:${LINENO}): '
 
 PASSWORD="$(echo -n "${DISTCCD_HOST}""${DUMMY_STRING_1}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 
-KEYWORD_FILENAME="$(echo "${KEYWORD_FILENAME}""${DUMMY_STRING_2}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
-SSH_USER_FILENAME="$(echo "${SSH_USER_FILENAME}""${DUMMY_STRING_3}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
-SSH_KEY_FILENAME="$(echo "${SSH_KEY_FILENAME}""${DUMMY_STRING_4}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
+KEYWORD_FILENAME="$(echo "${KEYWORD_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_2}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
+SSH_USER_FILENAME="$(echo "${SSH_USER_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_3}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
+SSH_KEY_FILENAME="$(echo "${SSH_KEY_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_4}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 
 KEYWORD=$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} https://${DISTCCD_HOST}/auth/${KEYWORD_FILENAME})
 SSH_USER=$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} https://${DISTCCD_HOST}/auth/${SSH_USER_FILENAME})
