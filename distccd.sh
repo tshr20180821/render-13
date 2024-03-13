@@ -18,10 +18,13 @@ chmod 600 ./rsa_key01.txt
 
 CURL_OPT="${CURL_OPT} -m 3600 -sSN"
 
+# curl ${CURL_OPT} ${PIPING_SERVER}/${KEYWORD}res \
+#   | stdbuf -i0 -o0 openssl aes-128-ctr -d -pass "pass:${PASSWORD}" -bufsize 1 -pbkdf2 -iter 1 -md md5 \
+#   | nc -lp ${SSH_PORT} -s 127.0.0.1 \
+#   | stdbuf -i0 -o0 openssl aes-128-ctr -pass "pass:${PASSWORD}" -bufsize 1 -pbkdf2 -iter 1 -md md5 \
+#   | curl ${CURL_OPT} -T - ${PIPING_SERVER}/${KEYWORD}req &
 curl ${CURL_OPT} ${PIPING_SERVER}/${KEYWORD}res \
-  | stdbuf -i0 -o0 openssl aes-128-ctr -d -pass "pass:${PASSWORD}" -bufsize 1 -pbkdf2 -iter 1 -md md5 \
   | nc -lp ${SSH_PORT} -s 127.0.0.1 \
-  | stdbuf -i0 -o0 openssl aes-128-ctr -pass "pass:${PASSWORD}" -bufsize 1 -pbkdf2 -iter 1 -md md5 \
   | curl ${CURL_OPT} -T - ${PIPING_SERVER}/${KEYWORD}req &
 
 ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
