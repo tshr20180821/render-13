@@ -39,4 +39,3 @@ ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
   -i ./${SSH_KEY_FILENAME} \
   -4fNL ${DISTCC_PORT}:127.0.0.1:3632 ${SSH_USER}@127.0.0.1 &
 
-touch /tmp/${DISTCCD_HOST}
