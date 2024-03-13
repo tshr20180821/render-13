@@ -10,10 +10,10 @@ KEYWORD_FILENAME="$(echo "${KEYWORD_FILENAME}""${DUMMY_STRING_2}""$(date +%Y/%m/
 SSH_USER_FILENAME="$(echo "${SSH_USER_FILENAME}""${DUMMY_STRING_3}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 SSH_KEY_FILENAME="$(echo "${SSH_KEY_FILENAME}""${DUMMY_STRING_4}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 
-KEYWORD=$(curl -sSu ${BASIC_USER}:${BASIC_SERVER} https://${DISTCCD_HOST}/auth/${KEYWORD_FILENAME})
-SSH_USER=$(curl -sSu ${BASIC_USER}:${BASIC_SERVER} https://${DISTCCD_HOST}/auth/${SSH_USER_FILENAME})
+KEYWORD=$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} https://${DISTCCD_HOST}/auth/${KEYWORD_FILENAME})
+SSH_USER=$(curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} https://${DISTCCD_HOST}/auth/${SSH_USER_FILENAME})
 
-curl -sSu ${BASIC_USER}:${BASIC_SERVER} -o ./rsa_key01.txt https://${DISTCCD_HOST}/auth/${SSH_KEY_FILENAME}
+curl -sSu ${BASIC_USER}:${BASIC_PASSWORD} -o ./rsa_key01.txt https://${DISTCCD_HOST}/auth/${SSH_KEY_FILENAME}
 chmod 600 ./rsa_key01.txt
 
 CURL_OPT="${CURL_OPT} -m 3600 -sSN"
