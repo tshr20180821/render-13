@@ -8,8 +8,8 @@ curl -sSLO https://raw.githubusercontent.com/tshr20180821/render-13/main/distccd
 
 chmod +x distccd.sh
 
-BASE_SSH_PORT=5000
-BASE_DISTCC_PORT=5100
+BASE_SSH_PORT=7000
+BASE_DISTCC_PORT=7100
 
 for ((i=1; i <= "${DISTCCD_HOST_COUNT}"; i++)); do \
   var_name="DISTCCD_HOST_0""${i}"

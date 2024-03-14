@@ -29,12 +29,22 @@ CURL_OPT="${CURL_OPT} -m 3600 -sSN"
 #   | nc -lp ${SSH_PORT} -s 127.0.0.1 \
 #   | stdbuf -i0 -o0 openssl aes-128-ctr -pass "pass:${PASSWORD}" -bufsize 1 -pbkdf2 -iter 1 -md md5 \
 #   | curl ${CURL_OPT} -T - ${PIPING_SERVER}/${KEYWORD}req &
-curl ${CURL_OPT} "${PIPING_SERVER}"/"${KEYWORD}"res \
-  | nc -lp "${SSH_PORT}" -s 127.0.0.1 \
-  | curl ${CURL_OPT} -T - "${PIPING_SERVER}"/"${KEYWORD}"req &
 
-ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
-  -o ServerAliveInterval=60 -o ServerAliveCountMax=60 \
-  -p "${SSH_PORT}" \
-  -i ./"${SSH_KEY_FILENAME}" \
-  -4fNL "${DISTCC_PORT}":127.0.0.1:3632 "${SSH_USER}"@127.0.0.1 &
+BASE_CONNECT_PORT=5000
+for ((i=0; i < 10; i++)); do \
+do
+  CONNECT_PORT="$(("${CONNECT_PORT}"+"${i}"))"
+  curl ${CURL_OPT} "${PIPING_SERVER}"/"${KEYWORD}""${CONNECT_PORT}"res \
+    | nc -lp "${SSH_PORT}" -s 127.0.0.1 \
+    | curl ${CURL_OPT} -T - "${PIPING_SERVER}"/"${KEYWORD}""${CONNECT_PORT}"req &
+
+  ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+    -o ServerAliveInterval=60 -o ServerAliveCountMax=60 \
+    -p "${SSH_PORT}" \
+    -i ./"${SSH_KEY_FILENAME}" \
+    -4fNL "${DISTCC_PORT}":127.0.0.1:3632 "${SSH_USER}"@127.0.0.1 &
+
+  ss -4anp
+  ss -4anp | grep \:${SSH_PORT} | grep -v grep
+  break
+done
