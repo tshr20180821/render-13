@@ -17,7 +17,7 @@ chmod +x ./start_after.sh
 
 sleep 5s && ./start_after.sh &
 
-for i in {1..20}; do \
+for ((i=0; i < 20; i++)); do \
   sleep 60s \
    && ps aux \
    && curl -sS -A "${i}" -u "${BASIC_USER}":"${BASIC_PASSWORD}" https://"${RENDER_EXTERNAL_HOSTNAME}"/?"$(date +%s)"; \
