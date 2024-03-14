@@ -8,17 +8,16 @@ curl -sSLO https://raw.githubusercontent.com/tshr20180821/render-13/main/distccd
 
 chmod +x distccd.sh
 
-ONE=1
-echo "${DISTCCD_HOST_0${ONE}}"
+# DISTCCD_HOST=${DISTCCD_HOST_01} SSH_PORT=8022 DISTCC_PORT=5101 ./distccd.sh &
+# DISTCCD_HOST=${DISTCCD_HOST_02} SSH_PORT=8023 DISTCC_PORT=5102 ./distccd.sh &
+# DISTCCD_HOST=${DISTCCD_HOST_03} SSH_PORT=8024 DISTCC_PORT=5103 ./distccd.sh &
 
-DISTCCD_HOST=${DISTCCD_HOST_01} SSH_PORT=8022 DISTCC_PORT=5101 ./distccd.sh &
-DISTCCD_HOST=${DISTCCD_HOST_02} SSH_PORT=8023 DISTCC_PORT=5102 ./distccd.sh &
-DISTCCD_HOST=${DISTCCD_HOST_03} SSH_PORT=8024 DISTCC_PORT=5103 ./distccd.sh &
+BASE_SSH_PORT=5000
+BASE_DISTCC_PORT=5100
 
-BASE_SSH_PORT=5001
-BASE_DISTCC_PORT=5101
-
-for ((i=0; i < "${DISTCCD_HOST_COUNT}"; i++)); do \
+for ((i=1; i <= "${DISTCCD_HOST_COUNT}"; i++)); do \
+  var_name="DISTCCD_HOST_0""${i}"
+  DISTCCD_HOST="${!var_name}" SSH_PORT=$(("${BASE_SSH_PORT}"+"${i}")) DISTCC_PORT=$(("${BASE_DISTCC_PORT}"+"${i}")) ./distccd.sh &
   DISTCC_HOSTS="${DISTCC_HOSTS} 127.0.0.1:$(("${BASE_DISTCC_PORT}"+"${i}"))/3"
 done
 export DISTCC_HOSTS
