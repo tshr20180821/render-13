@@ -8,10 +8,6 @@ curl -sSLO https://raw.githubusercontent.com/tshr20180821/render-13/main/distccd
 
 chmod +x distccd.sh
 
-# DISTCCD_HOST=${DISTCCD_HOST_01} SSH_PORT=8022 DISTCC_PORT=5101 ./distccd.sh &
-# DISTCCD_HOST=${DISTCCD_HOST_02} SSH_PORT=8023 DISTCC_PORT=5102 ./distccd.sh &
-# DISTCCD_HOST=${DISTCCD_HOST_03} SSH_PORT=8024 DISTCC_PORT=5103 ./distccd.sh &
-
 BASE_SSH_PORT=5000
 BASE_DISTCC_PORT=5100
 
