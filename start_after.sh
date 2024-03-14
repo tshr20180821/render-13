@@ -10,8 +10,9 @@ chmod +x distccd.sh
 
 DISTCCD_HOST=${DISTCCD_HOST_01} SSH_PORT=8022 DISTCC_PORT=3632 ./distccd.sh &
 DISTCCD_HOST=${DISTCCD_HOST_02} SSH_PORT=8023 DISTCC_PORT=3633 ./distccd.sh &
+DISTCCD_HOST=${DISTCCD_HOST_03} SSH_PORT=8024 DISTCC_PORT=3634 ./distccd.sh &
 
-export DISTCC_HOSTS="127.0.0.1:3632/4 127.0.0.1:3633/4"
+export DISTCC_HOSTS="127.0.0.1:3632/3 127.0.0.1:3633/3 127.0.0.1:3634/3"
 
 export DISTCC_POTENTIAL_HOSTS="${DISTCC_HOSTS}"
 export DISTCC_FALLBACK=0
@@ -32,12 +33,11 @@ pushd /tmp
 curl -sSO https://memcached.org/files/memcached-1.6.22.tar.gz
 tar xf memcached-1.6.22.tar.gz
 
-
 pushd memcached-1.6.22
 
 ./configure --disable-docs >/dev/null
 
-time HOME=/tmp MAKEFLAGS="CC=distcc\ gcc" make -j$(nproc)
+time HOME=/tmp MAKEFLAGS="CC=distcc\ gcc" make -j9
 
 popd
 popd
