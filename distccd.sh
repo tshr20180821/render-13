@@ -46,7 +46,6 @@ for ((i=0; i < 5; i++)); do \
   sleep 2s
 
   ss -4antp
-  if [ $(ss -4antp | grep ESTAB | grep ssh | grep \:${SSH_PORT} | grep -v grep | wc -l) -eq 1 ]; then
-    break
-  fi
+  ps aux
+  break
 done
