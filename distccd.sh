@@ -60,9 +60,9 @@ for ((i=0; i < 5; i++)); do \
   if [ $(grep -c ERROR /tmp/ssh_${CONNECT_PORT}.log) -eq 0 ]; then
     break
   fi
-  process_id=$(ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+' | top 1)
+  process_id=$(ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+' | top -n 1)
   kill -9 ${process_id}
-  process_id=$(ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+' | top 1)
+  process_id=$(ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+' | top -n 1)
   if [ -n ${process_id} ]; then
    kill -9 ${process_id}
   fi
