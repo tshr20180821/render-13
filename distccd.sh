@@ -32,7 +32,6 @@ CURL_OPT="${CURL_OPT} -m 3600 -sSN"
 
 BASE_CONNECT_PORT=5000
 for ((i=0; i < 10; i++)); do \
-do
   CONNECT_PORT="$(("${BASE_CONNECT_PORT}"+"${i}"))"
   curl ${CURL_OPT} "${PIPING_SERVER}"/"${KEYWORD}""${CONNECT_PORT}"res \
     | nc -lp "${SSH_PORT}" -s 127.0.0.1 \
