@@ -37,15 +37,17 @@ for ((i=0; i < 5; i++)); do \
     | nc -lp "${SSH_PORT}" -s 127.0.0.1 \
     | curl ${CURL_OPT} -T - "${PIPING_SERVER}"/"${KEYWORD}""${CONNECT_PORT}"req &
 
-  ssh -v -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
+  ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
     -o ServerAliveInterval=60 -o ServerAliveCountMax=60 \
+    -E /tmp/ssh_${CONNECT_PORT}.log \
     -p "${SSH_PORT}" \
     -i ./"${SSH_KEY_FILENAME}" \
     -4fNL "${DISTCC_PORT}":127.0.0.1:3632 "${SSH_USER}"@127.0.0.1 &
 
+  tail -f /tmp/ssh_${CONNECT_PORT}.log &
+
   sleep 2s
 
-  ss -4antp
-  ps aux
+  grep -c -i error /tmp/ssh_${CONNECT_PORT}.log
   break
 done
