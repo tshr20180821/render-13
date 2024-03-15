@@ -49,6 +49,9 @@ for ((i=0; i < 5; i++)); do \
 
   sleep 2s
 
-  grep -c -i error /tmp/ssh_${CONNECT_PORT}.log
-  break
+  ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o pid=(\d+), | grep -v grep
+
+  if [ $(grep -c -i error /tmp/ssh_${CONNECT_PORT}.log) -eq 0 ]; then
+    break
+  fi
 done
