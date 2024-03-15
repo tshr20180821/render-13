@@ -49,7 +49,7 @@ for ((i=0; i < 5; i++)); do \
 
   tail -f /tmp/ssh_${CONNECT_PORT}.log &
 
-  sleep 2s
+  sleep 1s
 
   grep -c -i error /tmp/ssh_${CONNECT_PORT}.log
   break
