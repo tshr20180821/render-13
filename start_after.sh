@@ -11,7 +11,7 @@ chmod +x distccd.sh
 BASE_SSH_PORT=7000
 BASE_DISTCC_PORT=7100
 
-for ((i=1; i <= "${DISTCCD_HOST_COUNT}"; i++)); do \
+for ((i=0; i < "${DISTCCD_HOST_COUNT}"; i++)); do \
   var_name="DISTCCD_HOST_0""${i}"
   DISTCCD_HOST="${!var_name}" SSH_PORT=$(("${BASE_SSH_PORT}"+"${i}")) DISTCC_PORT=$(("${BASE_DISTCC_PORT}"+"${i}")) ./distccd.sh &
   DISTCC_HOSTS="${DISTCC_HOSTS} 127.0.0.1:$(("${BASE_DISTCC_PORT}"+"${i}"))/3"
