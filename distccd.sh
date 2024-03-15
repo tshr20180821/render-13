@@ -37,8 +37,11 @@ for ((i=0; i < 5; i++)); do \
     | nc -lp "${SSH_PORT}" -s 127.0.0.1 \
     | curl ${CURL_OPT} -T - "${PIPING_SERVER}"/"${KEYWORD}""${CONNECT_PORT}"req &
 
+  touch /tmp/ssh_${CONNECT_PORT}.log
+
   ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null \
     -o ServerAliveInterval=60 -o ServerAliveCountMax=60 \
+    -o LogLevel VERBOSE \
     -E /tmp/ssh_${CONNECT_PORT}.log \
     -p "${SSH_PORT}" \
     -i ./"${SSH_KEY_FILENAME}" \
