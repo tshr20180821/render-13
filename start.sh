@@ -24,7 +24,7 @@ for ((i=0; i < 20; i++)); do \
    && curl -sS -A "${i}" -u "${BASIC_USER}":"${BASIC_PASSWORD}" https://"${RENDER_EXTERNAL_HOSTNAME}"/?"$(date +%s)"; \
 done &
 
-ln -sfT /dev/stderr ${APACHE_LOG_DIR}/error.log
-ln -sfT /dev/stdout ${APACHE_LOG_DIR}/access.log
+ln -sfT /dev/stderr "${APACHE_LOG_DIR}"/error.log
+ln -sfT /dev/stdout "${APACHE_LOG_DIR}"/access.log
 
 exec /usr/sbin/apache2 -DFOREGROUND
