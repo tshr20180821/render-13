@@ -21,7 +21,7 @@ export DISTCC_HOSTS
 export DISTCC_POTENTIAL_HOSTS="${DISTCC_HOSTS}"
 export DISTCC_FALLBACK=0
 export DISTCC_IO_TIMEOUT=600
-export DISTCC_VERBOSE=1
+# export DISTCC_VERBOSE=1
 
 gcc -### -E - -march=native 2>&1 | sed -r '/cc1/!d;s/(")|(^.* - )//g' >/tmp/cflags_option
 cflags_option=$(cat /tmp/cflags_option)
