@@ -17,7 +17,7 @@ chmod +x ./start_after.sh
 
 sleep 5s && ./start_after.sh &
 
-for ((i=0; i < 20; i++)); do \
+for ((i=0; i < 2; i++)); do \
   sleep 60s \
    && ss -4antp \
    && ps aux \
