@@ -8,13 +8,20 @@ curl -sSLO https://raw.githubusercontent.com/tshr20180821/render-13/main/distccd
 
 chmod +x distccd.sh
 
-BASE_SSH_PORT=7000
-BASE_DISTCC_PORT=7100
+PARALLEL_COUNT=2
+BASE_PORT=7000
+# ssh 700-
+# distcc 7100-
 
-for ((i=0; i < "${DISTCCD_HOST_COUNT}"; i++)); do \
-  var_name="DISTCCD_HOST_0""${i}"
-  DISTCCD_HOST="${!var_name}" SSH_PORT=$(("${BASE_SSH_PORT}"+"${i}")) DISTCC_PORT=$(("${BASE_DISTCC_PORT}"+"${i}")) ./distccd.sh &
-  DISTCC_HOSTS="${DISTCC_HOSTS} 127.0.0.1:$(("${BASE_DISTCC_PORT}"+"${i}"))/3"
+server_count=0
+while true; do \
+  var_name="DISTCCD_HOST_0""${server_count}"
+  if [ -z "${!var_name}" ]; then
+    break
+  fi
+  DISTCCD_HOST="${!var_name}" SSH_PORT=$(("${BASE_PORT}"+"${server_count}")) DISTCC_PORT=$(("${BASE_PORT}"+"${server_count}"+100)) ./distccd.sh &
+  DISTCC_HOSTS="${DISTCC_HOSTS} 127.0.0.1:$(("${BASE_PORT}"+"${server_count}"+100))/${PARALLEL_COUNT}"
+  server_count=$((server_count+1))
 done
 export DISTCC_HOSTS
 
@@ -41,7 +48,7 @@ pushd memcached-1.6.22
 
 ./configure --disable-docs >/dev/null
 
-time HOME=/tmp MAKEFLAGS="CC=distcc\ gcc" make -j$((DISTCCD_HOST_COUNT*2))
+time HOME=/tmp MAKEFLAGS="CC=distcc\ gcc" make -j$((DISTCCD_HOST_COUNT*PARALLEL_COUNT))
 
 popd
 popd
