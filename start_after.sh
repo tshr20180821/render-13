@@ -41,7 +41,7 @@ pushd memcached-1.6.22
 
 ./configure --disable-docs >/dev/null
 
-time HOME=/tmp MAKEFLAGS="CC=distcc\ gcc" make -j3
+time HOME=/tmp MAKEFLAGS="CC=distcc\ gcc" make -j$((DISTCCD_HOST_COUNT * 3))
 
 popd
 popd
