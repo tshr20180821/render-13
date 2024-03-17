@@ -15,7 +15,7 @@ SSH_KEY_FILENAME="$(echo "${SSH_KEY_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_4
 count=0
 while [ "200" != "$(curl -sSu "${BASIC_USER}":"${BASIC_PASSWORD}" -o /dev/null -w '%{http_code}' https://"${DISTCCD_HOST}"/auth/"${SSH_KEY_FILENAME}")" ]; do
   sleep 3s
-  count=$((${count}+1))
+  count=$((count+1))
   if [ ${count} -eq 20 ]; then
     exit
   fi
@@ -57,13 +57,13 @@ for ((i=0; i < 5; i++)); do \
   ss -antp
   ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+'
 
-  if [ $(grep -c ERROR /tmp/ssh_${CONNECT_PORT}.log) -eq 0 ]; then
+  if [ $(grep -c ERROR /tmp/ssh_"${CONNECT_PORT}".log) -eq 0 ]; then
     break
   fi
   process_id=$(ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+' | top -n 1)
-  kill -9 ${process_id}
+  kill -9 "${process_id}"
   process_id=$(ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+' | top -n 1)
-  if [ -n ${process_id} ]; then
-   kill -9 ${process_id}
+  if [ -n "${process_id}" ]; then
+   kill -9 "${process_id}"
   fi
 done
