@@ -10,7 +10,7 @@ chmod +x distccd.sh
 
 PARALLEL_COUNT=1
 BASE_PORT=7000
-# ssh 700-
+# ssh 7000-
 # distcc 7100-
 
 server_count=0
