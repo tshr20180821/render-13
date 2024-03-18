@@ -8,7 +8,7 @@ curl -sSLO https://raw.githubusercontent.com/tshr20180821/render-13/main/distccd
 
 chmod +x distccd.sh
 
-PARALLEL_COUNT=2
+PARALLEL_COUNT=1
 BASE_PORT=7000
 # ssh 700-
 # distcc 7100-
