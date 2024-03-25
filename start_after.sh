@@ -23,7 +23,7 @@ while true; do \
   DISTCC_HOSTS="${DISTCC_HOSTS} 127.0.0.1:$(("${BASE_PORT}"+"${server_count}"+100))/${PARALLEL_COUNT}"
   server_count=$((server_count+1))
 done
-export DISTCC_HOSTS
+export DISTCC_HOSTS=$(echo ${DISTCC_HOSTS} | xargs)
 
 export DISTCC_POTENTIAL_HOSTS="${DISTCC_HOSTS}"
 export DISTCC_FALLBACK=0
