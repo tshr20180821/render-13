@@ -38,9 +38,9 @@ CURL_OPT="${CURL_OPT} -m 3600 -sSN"
 BASE_CONNECT_PORT=5000
 for ((i=0; i < 5; i++)); do \
   CONNECT_PORT="$(("${BASE_CONNECT_PORT}"+"${i}"))"
-  curl ${CURL_OPT} "${PIPING_SERVER}"/"${KEYWORD}""${CONNECT_PORT}"res \
+  curl ${CURL_OPT} "${PIPING_SERVER_B}"/"${KEYWORD}""${CONNECT_PORT}"res \
     | nc -lp "${SSH_PORT}" -s 127.0.0.1 \
-    | curl ${CURL_OPT} -T - "${PIPING_SERVER}"/"${KEYWORD}""${CONNECT_PORT}"req &
+    | curl ${CURL_OPT} -T - "${PIPING_SERVER_A}"/"${KEYWORD}""${CONNECT_PORT}"req &
 
   touch /tmp/ssh_"${CONNECT_PORT}".log
 
