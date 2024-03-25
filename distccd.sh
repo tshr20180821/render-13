@@ -8,9 +8,9 @@ curl -sSm 3 https://"${DISTCCD_HOST}"/ >/dev/null 2>&1 &
 
 # PASSWORD="$(echo -n "${DISTCCD_HOST}""${DUMMY_STRING_1}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 
-KEYWORD_FILENAME="$(echo "${KEYWORD_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_2}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
-SSH_USER_FILENAME="$(echo "${SSH_USER_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_3}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
-SSH_KEY_FILENAME="$(echo "${SSH_KEY_FILENAME}""${DISTCCD_HOST}""${DUMMY_STRING_4}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
+KEYWORD_FILENAME="$(echo "${KEYWORD_FILENAME}""${DISTCCD_HOST}""${PIPING_SERVER_A}""${PIPING_SERVER_B}""${DUMMY_STRING_2}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
+SSH_USER_FILENAME="$(echo "${SSH_USER_FILENAME}""${DISTCCD_HOST}""${PIPING_SERVER_A}""${PIPING_SERVER_B}""${DUMMY_STRING_3}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
+SSH_KEY_FILENAME="$(echo "${SSH_KEY_FILENAME}""${DISTCCD_HOST}""${PIPING_SERVER_A}""${PIPING_SERVER_B}""${DUMMY_STRING_4}""$(date +%Y/%m/%d)" | base64 -w 0 | sed 's/[+\/=]//g')"
 
 count=0
 while [ "200" != "$(curl -sSu "${BASIC_USER}":"${BASIC_PASSWORD}" -o /dev/null -w '%{http_code}' https://"${DISTCCD_HOST}"/auth/"${SSH_KEY_FILENAME}")" ]; do
