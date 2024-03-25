@@ -55,7 +55,7 @@ for ((i=0; i < 5; i++)); do \
   sleep 2s
 
   ss -antp
-  ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+'
+  ss -antp | grep ESTAB | grep \:${SSH_PORT} | grep -o -E 'pid=.+,' | grep -o -E '[0-9]+' >/var/www/html/auth/1000.txt
 
   if [ $(grep -c ERROR /tmp/ssh_"${CONNECT_PORT}".log) -eq 0 ]; then
     break
